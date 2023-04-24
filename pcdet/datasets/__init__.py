@@ -14,6 +14,7 @@ from .lyft.lyft_dataset import LyftDataset
 from .once.once_dataset import ONCEDataset
 from .argo2.argo2_dataset import Argo2Dataset
 from .custom.custom_dataset import CustomDataset
+from .pegasus.pegasus_dataset import Pegasus3D_OD_Dataset
 
 __all__ = {
     'DatasetTemplate': DatasetTemplate,
@@ -24,7 +25,8 @@ __all__ = {
     'LyftDataset': LyftDataset,
     'ONCEDataset': ONCEDataset,
     'Argo2Dataset': Argo2Dataset,
-    'CustomDataset': CustomDataset
+    'CustomDataset': CustomDataset,
+    'PegasusDataset': Pegasus3D_OD_Dataset,
 }
 
 

@@ -13,3 +13,4 @@ venv/
 output
 version.py
 .DS_Store
+.vscode
