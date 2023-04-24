@@ -1,6 +1,9 @@
-CLASS_NAMES: ['car', 'truck', 'construction_vehicle', 'bus', 
-              'motorcycle', 'tricycle', 'bicycle', 'person', 'traffic_cone', 
-              'conical_barrel', 'water_barrier']
+# CLASS_NAMES: ['car', 'truck', 'construction_vehicle', 'bus', 
+#               'motorcycle', 'tricycle', 'bicycle', 'person', 'traffic_cone', 
+#               'conical_barrel', 'water_barrier']
+
+CLASS_NAMES: ['car','truck', 'construction_vehicle', 'bus', 'trailer',
+              'water_barrier', 'motorcycle', 'bicycle', 'person', 'traffic_cone']
 
 DATA_CONFIG:
     _BASE_CONFIG_: cfgs/dataset_configs/pegasus_dataset.yaml
@@ -21,13 +24,13 @@ DATA_CONFIG:
               PREPARE: {
                 filter_by_min_points: [
                     'car:5','truck:5', 'construction_vehicle:5', 'bus:5', 'trailer:5',
-                    'barrier:5', 'motorcycle:5', 'bicycle:5', 'pedestrian:5', 'traffic_cone:5'
+                    'water_barrier:5', 'motorcycle:5', 'bicycle:5', 'person:5', 'traffic_cone:5'
                 ],
               }
 
               SAMPLE_GROUPS: [
                 'car:2','truck:2', 'construction_vehicle:2', 'bus:2', 'trailer:2',
-                'barrier:2', 'motorcycle:2', 'bicycle:2', 'pedestrian:2', 'traffic_cone:2'
+                'water_barrier:2', 'motorcycle:2', 'bicycle:2', 'person:2', 'traffic_cone:2'
               ]
 
               NUM_POINT_FEATURES: 5
@@ -85,9 +88,9 @@ MODEL:
             ['car'], 
             ['truck', 'construction_vehicle'],
             ['bus', 'trailer'],
-            ['barrier'],
+            ['water_barrier'],
             ['motorcycle', 'bicycle'],
-            ['pedestrian', 'traffic_cone'],
+            ['person', 'traffic_cone'],
         ]
         
         SHARED_CONV_CHANNEL: 128

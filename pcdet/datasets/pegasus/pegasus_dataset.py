@@ -36,7 +36,7 @@ class Pegasus3D_OD_Dataset(DatasetTemplate):
         self.sequential_bev = False
         self.use_sensor_info = dict()
         self.sample = False
-        self.nsweeps = 3
+        self.nsweeps = 1
         self.class_table = None
         self.NumPointFeatures = 5
         self.test_mode=True
@@ -44,7 +44,7 @@ class Pegasus3D_OD_Dataset(DatasetTemplate):
 
         self.load_infos(self.mode)
 
-        self.load_points = LoadPointCloudFromFile_Pegasus(nsweeps=3)
+        self.load_points = LoadPointCloudFromFile_Pegasus(nsweeps=self.nsweeps)
         self.load_annotations = LoadAnnotations_Pegasus()
 
     def load_infos(self, mode):
@@ -204,7 +204,7 @@ class Pegasus3D_OD_Dataset(DatasetTemplate):
 
         data_dict = self.prepare_data(data_dict=input_dict)
 
-        if self.dataset_cfg.get('SET_NAN_VELOCITY_TO_ZEROS', False) and 'gt_boxes' in info:
+        if self.dataset_cfg.get('SET_NAN_VELOCITY_TO_ZEROS', False) and 'gt_boxes' in data_dict:
             gt_boxes = data_dict['gt_boxes']
             gt_boxes[np.isnan(gt_boxes)] = 0
             data_dict['gt_boxes'] = gt_boxes
@@ -213,5 +213,10 @@ class Pegasus3D_OD_Dataset(DatasetTemplate):
             data_dict['gt_boxes'] = data_dict['gt_boxes'][:, [0, 1, 2, 3, 4, 5, 6, -1]]
 
         return data_dict
+    
+    def evaluation(self, det_annos, class_names, **kwargs):
+        print("evaluating ...", type(det_annos))
+        
+        print (1)
 
 

@@ -24,8 +24,8 @@ class LoadPointCloudFromFile_Pegasus(object):
         self.use_dim = use_dim
         self.rm_points_radius = rm_points_radius
         self.dummy = dummy
-        if nsweeps == 1:
-            assert use_dim == 4, "nsweeps == 1, then use_dim should set to 4"
+        # if nsweeps == 1:
+        #     assert use_dim == 4, "nsweeps == 1, then use_dim should set to 4"
     
     def get_lidar2gloabl_transfromation(self, sample_info):
         sample_lidar2ego = np.eye(4)
