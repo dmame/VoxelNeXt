@@ -22,7 +22,7 @@ from tqdm import tqdm
 from ...ops.roiaware_pool3d import roiaware_pool3d_utils
 from ...utils import common_utils
 from ..dataset import DatasetTemplate
-from .pegasus_utils import LoadPointCloudFromFile, LoadPointCloudAnnotations
+from .pegasus_utils import LoadPointCloudFromFile_Pegasus, LoadAnnotations_Pegasus
 
 
 
@@ -36,7 +36,7 @@ class Pegasus3D_OD_Dataset(DatasetTemplate):
         self.sequential_bev = False
         self.use_sensor_info = dict()
         self.sample = False
-        self.nsweeps = 1
+        self.nsweeps = 3
         self.class_table = None
         self.NumPointFeatures = 5
         self.test_mode=True
@@ -44,8 +44,8 @@ class Pegasus3D_OD_Dataset(DatasetTemplate):
 
         self.load_infos(self.mode)
 
-        self.load_points = LoadPointCloudFromFile()
-        self.load_annotations = LoadPointCloudAnnotations()
+        self.load_points = LoadPointCloudFromFile_Pegasus(nsweeps=3)
+        self.load_annotations = LoadAnnotations_Pegasus()
 
     def load_infos(self, mode):
         self.logger.info('Loading pegasus dataset')
@@ -184,41 +184,33 @@ class Pegasus3D_OD_Dataset(DatasetTemplate):
 
     def __getitem__(self, index):
         data_dict = self.get_sensor_data(index)
-        print("2")
-        # self.load_points(data_dict， None)
-        # self.load_annotations
+        res, info = self.load_points(data_dict, None)
+        res, info = self.load_annotations(res, info)
         
 
-        print("1")
-        # info = copy.deepcopy(self.infos[index])
-        # points = self.get_lidar_with_sweeps(index, max_sweeps=self.dataset_cfg.MAX_SWEEPS)
+        input_dict = {
+            'points': res['lidar']['points'],
+            'frame_id': res['sample_id'],
+            'metadata': {'token': res['metadata']['token']}
+        }
 
-        # input_dict = {
-        #     'points': points,
-        #     'frame_id': Path(info['lidar_path']).stem,
-        #     'metadata': {'token': info['token']}
-        # }
+        if 'boxes' in res['lidar']['annotations']:
+            mask = None
 
-        # if 'gt_boxes' in info:
-        #     if self.dataset_cfg.get('FILTER_MIN_POINTS_IN_GT', False):
-        #         mask = (info['num_lidar_pts'] > self.dataset_cfg.FILTER_MIN_POINTS_IN_GT - 1)
-        #     else:
-        #         mask = None
+            input_dict.update({
+                'gt_names': res['lidar']['annotations']['names'] if mask is None else res['lidar']['annotations']['names'][mask],
+                'gt_boxes': res['lidar']['annotations']['boxes'] if mask is None else res['lidar']['annotations']['boxes'][mask]
+            })
 
-        #     input_dict.update({
-        #         'gt_names': info['gt_names'] if mask is None else info['gt_names'][mask],
-        #         'gt_boxes': info['gt_boxes'] if mask is None else info['gt_boxes'][mask]
-        #     })
+        data_dict = self.prepare_data(data_dict=input_dict)
 
-        # data_dict = self.prepare_data(data_dict=input_dict)
+        if self.dataset_cfg.get('SET_NAN_VELOCITY_TO_ZEROS', False) and 'gt_boxes' in info:
+            gt_boxes = data_dict['gt_boxes']
+            gt_boxes[np.isnan(gt_boxes)] = 0
+            data_dict['gt_boxes'] = gt_boxes
 
-        # if self.dataset_cfg.get('SET_NAN_VELOCITY_TO_ZEROS', False) and 'gt_boxes' in info:
-        #     gt_boxes = data_dict['gt_boxes']
-        #     gt_boxes[np.isnan(gt_boxes)] = 0
-        #     data_dict['gt_boxes'] = gt_boxes
-
-        # if not self.dataset_cfg.PRED_VELOCITY and 'gt_boxes' in data_dict:
-        #     data_dict['gt_boxes'] = data_dict['gt_boxes'][:, [0, 1, 2, 3, 4, 5, 6, -1]]
+        if not self.dataset_cfg.PRED_VELOCITY and 'gt_boxes' in data_dict:
+            data_dict['gt_boxes'] = data_dict['gt_boxes'][:, [0, 1, 2, 3, 4, 5, 6, -1]]
 
         return data_dict
 

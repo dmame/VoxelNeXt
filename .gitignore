@@ -14,3 +14,4 @@ output
 version.py
 .DS_Store
 .vscode
+*.png
