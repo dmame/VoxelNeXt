@@ -16,3 +16,4 @@ version.py
 .vscode
 *.png
 v1.0-mini/
+v1.0-trainval/
