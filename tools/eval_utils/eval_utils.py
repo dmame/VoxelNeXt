@@ -1,6 +1,7 @@
 import pickle
 import time
 
+from visual_utils import open3d_vis_utils as V
 import numpy as np
 import torch
 import tqdm
@@ -81,6 +82,10 @@ def eval_one_epoch(cfg, args, model, dataloader, epoch_id, logger, dist_test=Fal
         if cfg.LOCAL_RANK == 0:
             progress_bar.set_postfix(disp_dict)
             progress_bar.update()
+            
+        # V.draw_scenes(points=batch_dict['points'][:, 1:], gt_boxes=batch_dict['gt_boxes'][0], ref_boxes=annos[0]['boxes_lidar'], draw_origin=True)
+        
+        # break
 
     if cfg.LOCAL_RANK == 0:
         progress_bar.close()

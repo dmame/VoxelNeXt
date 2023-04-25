@@ -7,6 +7,7 @@ import re
 import time
 from pathlib import Path
 
+from visual_utils import open3d_vis_utils as V
 import numpy as np
 import torch
 from tensorboardX import SummaryWriter
@@ -20,12 +21,15 @@ from pcdet.utils import common_utils
 
 def parse_config():
     parser = argparse.ArgumentParser(description='arg parser')
-    parser.add_argument('--cfg_file', type=str, default=None, help='specify the config for training')
+    
+    # parser.add_argument('--cfg_file', type=str, default="cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml", help='specify the config for training')
+    parser.add_argument('--cfg_file', type=str, default="cfgs/pegasus_models/cbgs_voxel0075_voxelnext.yaml", help='specify the config for training')
 
     parser.add_argument('--batch_size', type=int, default=None, required=False, help='batch size for training')
     parser.add_argument('--workers', type=int, default=4, help='number of workers for dataloader')
     parser.add_argument('--extra_tag', type=str, default='default', help='extra tag for this experiment')
-    parser.add_argument('--ckpt', type=str, default=None, help='checkpoint to start from')
+    # parser.add_argument('--ckpt', type=str, default="../output/nuscenes_models/pretrain_models/voxelnext_nuscenes_kernel1.pth", help='checkpoint to start from')
+    parser.add_argument('--ckpt', type=str, default="../output/pegasus_models/cbgs_voxel0075_voxelnext/v2/ckpt/checkpoint_epoch_20.pth", help='checkpoint to start from')
     parser.add_argument('--pretrained_model', type=str, default=None, help='pretrained_model')
     parser.add_argument('--launcher', choices=['none', 'pytorch', 'slurm'], default='none')
     parser.add_argument('--tcp_port', type=int, default=18888, help='tcp port for distrbuted training')
@@ -194,6 +198,12 @@ def main():
         batch_size=args.batch_size,
         dist=dist_test, workers=args.workers, logger=logger, training=False
     )
+
+    # data_dict = test_set.__getitem__(0) 
+    # voxel_reshape = data_dict['voxels'].reshape(-1, 5)
+    # print(data_dict['gt_boxes'].shape, data_dict['gt_boxes'][0], data_dict['gt_boxes'][:, :3])
+    # V.draw_scenes(points=voxel_reshape, gt_boxes=data_dict['gt_boxes'], draw_origin=True)
+
 
     model = build_network(model_cfg=cfg.MODEL, num_class=len(cfg.CLASS_NAMES), dataset=test_set)
     with torch.no_grad():

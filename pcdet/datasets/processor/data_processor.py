@@ -83,7 +83,7 @@ class DataProcessor(object):
             mask = common_utils.mask_points_by_range(data_dict['points'], self.point_cloud_range)
             data_dict['points'] = data_dict['points'][mask]
 
-        if data_dict.get('gt_boxes', None) is not None and config.REMOVE_OUTSIDE_BOXES and self.training:
+        if data_dict.get('gt_boxes', None) is not None and config.REMOVE_OUTSIDE_BOXES:
             mask = box_utils.mask_boxes_outside_range_numpy(
                 data_dict['gt_boxes'], self.point_cloud_range, min_num_corners=config.get('min_num_corners', 1), 
                 use_center_to_filter=config.get('USE_CENTER_TO_FILTER', True)
