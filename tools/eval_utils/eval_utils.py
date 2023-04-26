@@ -83,7 +83,7 @@ def eval_one_epoch(cfg, args, model, dataloader, epoch_id, logger, dist_test=Fal
             progress_bar.set_postfix(disp_dict)
             progress_bar.update()
             
-        # V.draw_scenes(points=batch_dict['points'][:, 1:], gt_boxes=batch_dict['gt_boxes'][0], ref_boxes=annos[0]['boxes_lidar'], draw_origin=True)
+        # V.draw_scenes(points=batch_dict['voxels'].reshape(-1, 5), gt_boxes=batch_dict['gt_boxes'][0], ref_boxes=annos[0]['boxes_lidar'], draw_origin=True)
         
         # break
 
@@ -133,8 +133,11 @@ def eval_one_epoch(cfg, args, model, dataloader, epoch_id, logger, dist_test=Fal
         output_path=final_output_dir
     )
 
-    logger.info(result_str)
-    ret_dict.update(result_dict)
+    try:
+        logger.info(result_str)
+        ret_dict.update(result_dict)
+    except:
+        logger.warning("---final evaluation result is not ye calculated---")
 
     logger.info('Result is saved to %s' % result_dir)
     logger.info('****************Evaluation done.*****************')

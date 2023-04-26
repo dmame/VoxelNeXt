@@ -36,6 +36,7 @@ class Pegasus3D_OD_Dataset(DatasetTemplate):
         self.sequential_bev = False
         self.use_sensor_info = dict()
         self.sample = False
+        # self.nsweeps = dataset_cfg.MAX_SWEEPS
         self.nsweeps = 1
         self.class_table = None
         self.NumPointFeatures = 5
@@ -215,8 +216,29 @@ class Pegasus3D_OD_Dataset(DatasetTemplate):
         return data_dict
     
     def evaluation(self, det_annos, class_names, **kwargs):
-        print("evaluating ...", type(det_annos))
+        all_predictions = {}
         
-        print (1)
+        for det in det_annos:
+            token = det['metadata']['token']
+            output = {
+                'box3d_lidar': det["boxes_lidar"],
+                'scores': det["score"],
+                'label_preds': det["pred_labels"]
+            }
+            all_predictions['token'] = output
+            
+        # save to pkl
+        output_path = Path(kwargs['output_path'])
+        output_path.mkdir(exist_ok=True, parents=True)
+        res_path = str(output_path / 'prediction.pkl')
+        with open(res_path, 'wb') as f:
+            pickle.dump(det_annos, f)
+
+        self.logger.info(f'The predictions of NuScenes have been saved to {res_path}')
+        
+        result_str, result_dict = None, None
+        return result_str, result_dict
+
+        
 
 

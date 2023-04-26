@@ -20,7 +20,7 @@ from train_utils.train_utils import train_model
 
 def parse_config():
     parser = argparse.ArgumentParser(description='arg parser')
-    parser.add_argument('--cfg_file', type=str, default="cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml", help='specify the config for training')
+    parser.add_argument('--cfg_file', type=str, default="cfgs/pegasus_models/cbgs_voxel0075_voxelnext.yaml", help='specify the config for training')
 
     parser.add_argument('--batch_size', type=int, default=None, required=False, help='batch size for training')
     parser.add_argument('--epochs', type=int, default=None, required=False, help='number of epochs to train for')
