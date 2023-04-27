@@ -1,13 +1,17 @@
 CLASS_NAMES: ['car', 'pickup_truck', 'truck', 'construction_vehicle', 'bus', 'tricycle', 'motorcycle', 'bicycle',
               'person', 'traffic_cone', 'conical_barrel', 'animal', 'unknown']
 
+# CLASS_NAMES: ['car','truck', 'construction_vehicle', 'bus', 'trailer',
+#               'water_barrier', 'motorcycle', 'bicycle', 'person', 'traffic_cone']
 
 DATA_CONFIG:
     _BASE_CONFIG_: cfgs/dataset_configs/pegasus_dataset.yaml
     POINT_CLOUD_RANGE: [-54.0, -54.0, -5.0, 54.0, 54.0, 3.0]
     INFO_PATH: {
+        # 'train': [test100_samples.pkl],
+        # 'test': [val_test_set_new_pose_clip_1668591250200.pkl],
         'train': [ds-201168a4-8fc2-3604-9dbb-114ed29c0da9_20230418105042.pkl],
-        'test': [test100_samples.pkl],
+        'test': [val_test_set_new_pose.pkl],
     }
     DATA_AUGMENTOR:
         DISABLE_AUG_LIST: ['placeholder']
@@ -91,6 +95,15 @@ MODEL:
             ['animal'],
             ['unknown']
         ]
+
+        # CLASS_NAMES_EACH_HEAD: [
+        #     ['car'], 
+        #     ['truck', 'construction_vehicle'],
+        #     ['bus', 'trailer'],
+        #     ['water_barrier'],
+        #     ['motorcycle', 'bicycle'],
+        #     ['person', 'traffic_cone']
+        # ]
         
         SHARED_CONV_CHANNEL: 128
         KERNEL_SIZE_HEAD: 1

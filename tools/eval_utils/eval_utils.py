@@ -83,7 +83,9 @@ def eval_one_epoch(cfg, args, model, dataloader, epoch_id, logger, dist_test=Fal
             progress_bar.set_postfix(disp_dict)
             progress_bar.update()
             
-        # V.draw_scenes(points=batch_dict['voxels'].reshape(-1, 5), gt_boxes=batch_dict['gt_boxes'][0], ref_boxes=annos[0]['boxes_lidar'], draw_origin=True)
+        # V.draw_scenes(points=batch_dict['voxels'].reshape(-1, 5), gt_boxes=batch_dict['gt_boxes'][0], 
+        #               ref_labels=annos[0]['pred_labels'],
+        #               ref_boxes=annos[0]['boxes_lidar'], draw_origin=True)
         
         # break
 
