@@ -1,9 +1,6 @@
-# CLASS_NAMES: ['car', 'truck', 'construction_vehicle', 'bus', 
-#               'motorcycle', 'tricycle', 'bicycle', 'person', 'traffic_cone', 
-#               'conical_barrel', 'water_barrier']
+CLASS_NAMES: ['car', 'pickup_truck', 'truck', 'construction_vehicle', 'bus', 'tricycle', 'motorcycle', 'bicycle',
+              'person', 'traffic_cone', 'conical_barrel', 'animal', 'unknown']
 
-CLASS_NAMES: ['car','truck', 'construction_vehicle', 'bus', 'trailer',
-              'water_barrier', 'motorcycle', 'bicycle', 'person', 'traffic_cone']
 
 DATA_CONFIG:
     _BASE_CONFIG_: cfgs/dataset_configs/pegasus_dataset.yaml
@@ -86,11 +83,13 @@ MODEL:
 
         CLASS_NAMES_EACH_HEAD: [
             ['car'], 
-            ['truck', 'construction_vehicle'],
-            ['bus', 'trailer'],
-            ['water_barrier'],
-            ['motorcycle', 'bicycle'],
-            ['person', 'traffic_cone'],
+            ['pickup_truck', 'truck', 'construction_vehicle'],
+            ['bus'],
+            ['tricycle', 'motorcycle', 'bicycle'],
+            ['person'],
+            ['traffic_cone', 'conical_barrel'],
+            ['animal'],
+            ['unknown']
         ]
         
         SHARED_CONV_CHANNEL: 128

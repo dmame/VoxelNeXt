@@ -38,10 +38,14 @@ class Pegasus3D_OD_Dataset(DatasetTemplate):
         self.sample = False
         # self.nsweeps = dataset_cfg.MAX_SWEEPS
         self.nsweeps = 1
-        self.class_table = None
         self.NumPointFeatures = 5
         self.test_mode=True
         self.key_frame_index_in_multi_sweeps = 5
+        
+        self.class_table = {'bus':'bus', 'unknown_vehicle':'unknown', 'animal':'animal', 'unknown_object':'unknown', 'person':'person', 
+            'tricycle':'tricycle', 'conical_barrel':'conical_barrel', 'traffic_cone':'traffic_cone', 'trafficcone':'traffic_cone', 'bicycle':'bicycle', 
+            'pickup_truck':'pickup_truck', 'unknown':'unknown', 'truck':'truck', 'undefined':'unknown', 'motorcycle':'motorcycle', 'water_barrier':'traffic_cone', 
+            'unconfirm':'unknown', 'car':'car', 'construction_vehicle':'construction_vehicle', 'truck_headstock':'truck', 'truck_body':'truck'}
 
         self.load_infos(self.mode)
 
