@@ -29,7 +29,7 @@ def parse_config():
     parser.add_argument('--workers', type=int, default=4, help='number of workers for dataloader')
     parser.add_argument('--extra_tag', type=str, default='default', help='extra tag for this experiment')
     # parser.add_argument('--ckpt', type=str, default="../output/nuscenes_models/pretrain_models/voxelnext_nuscenes_kernel1.pth", help='checkpoint to start from')
-    parser.add_argument('--ckpt', type=str, default="../output/pegasus_models/cbgs_voxel0075_voxelnext/v1/ckpt/checkpoint_epoch_20.pth", help='checkpoint to start from')
+    parser.add_argument('--ckpt', type=str, default="../output/pegasus_models/cbgs_voxel0075_voxelnext/v3_coorect_ang_all_data/ckpt/checkpoint_epoch_2.pth", help='checkpoint to start from')
     parser.add_argument('--pretrained_model', type=str, default=None, help='pretrained_model')
     parser.add_argument('--launcher', choices=['none', 'pytorch', 'slurm'], default='none')
     parser.add_argument('--tcp_port', type=int, default=18888, help='tcp port for distrbuted training')
@@ -199,10 +199,12 @@ def main():
         dist=dist_test, workers=args.workers, logger=logger, training=False
     )
 
-    # data_dict = test_set.__getitem__(0) 
-    # voxel_reshape = data_dict['voxels'].reshape(-1, 5)
-    # print(data_dict['gt_boxes'].shape, data_dict['gt_boxes'][0], data_dict['gt_boxes'][:, :3])
-    # V.draw_scenes(points=voxel_reshape, gt_boxes=data_dict['gt_boxes'], draw_origin=True)
+    # for i in range(5, test_set.__len__()):
+    #     data_dict = test_set.__getitem__(i) 
+    #     voxel_reshape = data_dict['voxels'].reshape(-1, 5)
+    #     print(data_dict['gt_boxes'].shape, data_dict['gt_boxes'][0], data_dict['gt_boxes'][:, :3])
+    #     V.draw_scenes(points=voxel_reshape, gt_boxes=data_dict['gt_boxes'], draw_origin=True)
+    #     break
 
 
     model = build_network(model_cfg=cfg.MODEL, num_class=len(cfg.CLASS_NAMES), dataset=test_set)
