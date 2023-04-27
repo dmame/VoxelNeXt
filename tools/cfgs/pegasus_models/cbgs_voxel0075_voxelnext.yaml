@@ -9,34 +9,34 @@ DATA_CONFIG:
     _BASE_CONFIG_: cfgs/dataset_configs/pegasus_dataset.yaml
     POINT_CLOUD_RANGE: [-54.0, -54.0, -5.0, 54.0, 54.0, 3.0]
     INFO_PATH: {
-        'train': [test100_samples.pkl],
+        'train': [ds-201168a4-8fc2-3604-9dbb-114ed29c0da9_20230418105042.pkl],
         'test': [test100_samples.pkl],
     }
     DATA_AUGMENTOR:
         DISABLE_AUG_LIST: ['placeholder']
         AUG_CONFIG_LIST:
-            - NAME: gt_sampling
-              DB_INFO_PATH:
-                - nuscenes_dbinfos_10sweeps_withvelo.pkl
-              USE_SHARED_MEMORY: False  #True  # set it to True to speed up (it costs about 15GB shared memory)
-              DB_DATA_PATH:
-                - nuscenes_dbinfos_10sweeps_withvelo_global.pkl.npy
-              PREPARE: {
-                filter_by_min_points: [
-                    'car:5','truck:5', 'construction_vehicle:5', 'bus:5', 'trailer:5',
-                    'water_barrier:5', 'motorcycle:5', 'bicycle:5', 'person:5', 'traffic_cone:5'
-                ],
-              }
+            # - NAME: gt_sampling
+            #   DB_INFO_PATH:
+            #     - nuscenes_dbinfos_10sweeps_withvelo.pkl
+            #   USE_SHARED_MEMORY: False  #True  # set it to True to speed up (it costs about 15GB shared memory)
+            #   DB_DATA_PATH:
+            #     - nuscenes_dbinfos_10sweeps_withvelo_global.pkl.npy
+            #   PREPARE: {
+            #     filter_by_min_points: [
+            #         'car:5','truck:5', 'construction_vehicle:5', 'bus:5', 'trailer:5',
+            #         'water_barrier:5', 'motorcycle:5', 'bicycle:5', 'person:5', 'traffic_cone:5'
+            #     ],
+            #   }
 
-              SAMPLE_GROUPS: [
-                'car:2','truck:2', 'construction_vehicle:2', 'bus:2', 'trailer:2',
-                'water_barrier:2', 'motorcycle:2', 'bicycle:2', 'person:2', 'traffic_cone:2'
-              ]
+            #   SAMPLE_GROUPS: [
+            #     'car:2','truck:2', 'construction_vehicle:2', 'bus:2', 'trailer:2',
+            #     'water_barrier:2', 'motorcycle:2', 'bicycle:2', 'person:2', 'traffic_cone:2'
+            #   ]
 
-              NUM_POINT_FEATURES: 5
-              DATABASE_WITH_FAKELIDAR: False
-              REMOVE_EXTRA_WIDTH: [0.0, 0.0, 0.0]
-              LIMIT_WHOLE_SCENE: True
+            #   NUM_POINT_FEATURES: 5
+            #   DATABASE_WITH_FAKELIDAR: False
+            #   REMOVE_EXTRA_WIDTH: [0.0, 0.0, 0.0]
+            #   LIMIT_WHOLE_SCENE: True
 
             - NAME: random_world_flip
               ALONG_AXIS_LIST: ['x', 'y']

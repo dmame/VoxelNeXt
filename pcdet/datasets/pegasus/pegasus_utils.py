@@ -188,12 +188,12 @@ class LoadAnnotations_Pegasus(object):
         
         gt_bboxes_3d = np.array(res['sample_info']['bbox'])
         if self.with_vel:  ## (x, y ,z ,w, l , h, theta, vx ,vy)
-            gt_bboxes_3d = gt_bboxes_3d[:, [0, 1, 2, 4, 3, 5, 10, 6, 7]]
+            gt_bboxes_3d = gt_bboxes_3d[:, [0, 1, 2, 3, 4, 5, 10, 6, 7]]
         else:  ## (x, y ,z ,w, l , h, theta)
-            gt_bboxes_3d = gt_bboxes_3d[:, [0, 1, 2, 4, 3, 5, 10]]
+            gt_bboxes_3d = gt_bboxes_3d[:, [0, 1, 2, 3, 4, 5, 10]]
         
         #### convert theta to second coord theta
-        gt_bboxes_3d[:, 6] = -gt_bboxes_3d[:, 6] - np.pi/2
+        # gt_bboxes_3d[:, 6] = -gt_bboxes_3d[:, 6] - np.pi/2
            
         ### get gt_names
         gt_names = np.array(res['sample_info']['bbox_category'], dtype='<30U')
