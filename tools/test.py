@@ -30,6 +30,7 @@ def parse_config():
     parser.add_argument('--extra_tag', type=str, default='default', help='extra tag for this experiment')
     # parser.add_argument('--ckpt', type=str, default="../output/nuscenes_models/pretrain_models/voxelnext_nuscenes_kernel1.pth", help='checkpoint to start from')
     parser.add_argument('--ckpt', type=str, default="../output/pegasus_models/cbgs_voxel0075_voxelnext/v3_coorect_ang_all_data/ckpt/checkpoint_epoch_2.pth", help='checkpoint to start from')
+    # parser.add_argument('--ckpt', type=str, default="../output/nuscenes_models/cbgs_voxel0075_voxelnext/voxelnext/ckpt/checkpoint_epoch_20.pth", help='checkpoint to start from')
     parser.add_argument('--pretrained_model', type=str, default=None, help='pretrained_model')
     parser.add_argument('--launcher', choices=['none', 'pytorch', 'slurm'], default='none')
     parser.add_argument('--tcp_port', type=int, default=18888, help='tcp port for distrbuted training')
